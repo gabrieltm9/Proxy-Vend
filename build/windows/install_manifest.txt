@@ -1,0 +1,13 @@
+C:/Users/gmonc/OneDrive/Desktop/proxyvend/build/windows/runner/Release/data/icudtl.dat
+C:/Users/gmonc/OneDrive/Desktop/proxyvend/build/windows/runner/Release/flutter_windows.dll
+C:/Users/gmonc/OneDrive/Desktop/proxyvend/build/windows/runner/Release/data/flutter_assets/AssetManifest.bin
+C:/Users/gmonc/OneDrive/Desktop/proxyvend/build/windows/runner/Release/data/flutter_assets/AssetManifest.json
+C:/Users/gmonc/OneDrive/Desktop/proxyvend/build/windows/runner/Release/data/flutter_assets/assets/Italy_Vending_Locations.xlsx
+C:/Users/gmonc/OneDrive/Desktop/proxyvend/build/windows/runner/Release/data/flutter_assets/FontManifest.json
+C:/Users/gmonc/OneDrive/Desktop/proxyvend/build/windows/runner/Release/data/flutter_assets/fonts/MaterialIcons-Regular.otf
+C:/Users/gmonc/OneDrive/Desktop/proxyvend/build/windows/runner/Release/data/flutter_assets/NOTICES
+C:/Users/gmonc/OneDrive/Desktop/proxyvend/build/windows/runner/Release/data/flutter_assets/NOTICES.Z
+C:/Users/gmonc/OneDrive/Desktop/proxyvend/build/windows/runner/Release/data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf
+C:/Users/gmonc/OneDrive/Desktop/proxyvend/build/windows/runner/Release/data/flutter_assets/packages/flutter_map/lib/assets/flutter_map_logo.png
+C:/Users/gmonc/OneDrive/Desktop/proxyvend/build/windows/runner/Release/data/flutter_assets/shaders/ink_sparkle.frag
+C:/Users/gmonc/OneDrive/Desktop/proxyvend/build/windows/runner/Release/data/app.so
