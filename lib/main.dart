@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:excel/excel.dart';
+import 'package:flutter/services.dart' show ByteData, rootBundle;
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 void main() {
   runApp(const MyApp());
@@ -55,18 +59,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  List<Marker> _markers = [];
+  var locations = [];
 
   @override
   Widget build(BuildContext context) {
@@ -87,39 +81,73 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+          // Center is a layout widget. It takes a single child and positions it
+          // in the middle of the parent.
+          child: FlutterMap(
+        options: const MapOptions(
+          initialCenter: LatLng(45.5429017, 8.1116266),
+          initialZoom: 7,
         ),
-      ),
+        children: [
+          TileLayer(
+            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            userAgentPackageName: 'com.example.app',
+          ),
+          MarkerLayer(
+            markers: _markers,
+          ),
+        ],
+      )),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: ReadExcel,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  void ReadExcel() async {
+    /* Your ......other important..... code here */
+
+    ByteData data =
+        await rootBundle.load('assets/Italy_Vending_Locations.xlsx');
+    var bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    var excel = Excel.decodeBytes(bytes);
+
+    var table = excel.tables['WATER'];
+
+    int index = 0;
+    for (var row in table!.rows) {
+      if (index != 0) {
+        if (row.elementAt(0)?.value != null &&
+            row.elementAt(2)?.value != null) {
+          locations
+              .add(LatLng(row.elementAt(1)?.value, row.elementAt(2)?.value));
+        }
+      }
+
+      index++;
+    }
+    print(locations);
+
+    setMarkers();
+  }
+
+  void setMarkers() async {
+    List<Marker> markers = locations.map((n) {
+      LatLng point = LatLng(n.latitude, n.longitude);
+
+      return Marker(
+        width: 40.0,
+        height: 40.0,
+        point: point,
+        child: const FlutterLogo(),
+      );
+    }).toList();
+
+    setState(() {
+      _markers.clear();
+      _markers = markers;
+    });
   }
 }
