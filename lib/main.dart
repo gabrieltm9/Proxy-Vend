@@ -107,8 +107,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void ReadExcel() async {
-    /* Your ......other important..... code here */
-
     ByteData data =
         await rootBundle.load('assets/Italy_Vending_Locations.xlsx');
     var bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
@@ -119,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
     int index = 0;
     for (var row in table!.rows) {
       if (index != 0) {
-        if (row.elementAt(0)?.value != null &&
+        if (row.elementAt(1)?.value != null &&
             row.elementAt(2)?.value != null) {
           locations
               .add(LatLng(row.elementAt(1)?.value, row.elementAt(2)?.value));
@@ -135,12 +133,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void setMarkers() async {
     List<Marker> markers = locations.map((n) {
-      LatLng point = LatLng(n.latitude, n.longitude);
-
       return Marker(
         width: 40.0,
         height: 40.0,
-        point: point,
+        point: n,
         child: const FlutterLogo(),
       );
     }).toList();
